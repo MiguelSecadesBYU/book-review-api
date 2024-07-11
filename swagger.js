@@ -1,27 +1,26 @@
-// src/swagger.js
+// swagger.js
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-const swaggerDefinition = {
-  openapi: '3.0.0',
-  info: {
-    title: 'Book Review API',
-    version: '1.0.0',
-    description: 'API for managing book reviews',
-  },
-  servers: [
-    {
-      url: 'http://localhost:3000',
-      description: 'Development server',
-    },
-  ],
-};
-
+// Metadata about the API
 const options = {
-  swaggerDefinition,
-  apis: ['./src/routes/*.js'],
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Book Review API',
+      version: '1.0.0',
+      description: 'API for managing book reviews',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+      },
+    ],
+  },
+  apis: ['./routes/*.js'], // Path to the API docs
 };
 
+// Initialize swagger-jsdoc
 const swaggerSpec = swaggerJSDoc(options);
 
 module.exports = (app) => {
