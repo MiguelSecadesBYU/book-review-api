@@ -1,22 +1,23 @@
 {
-  "name": "cse-341-final-proyect",
+  "name": "cse-341-final-project",
   "version": "1.0.0",
-  "description": "A nose.js REST API for managin books and their reviews",
+  "description": "A Node.js REST API for managing books and their reviews",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "Miguel Secades García",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-validator": "^7.1.0",
-    "mongoose": "^8.5.0",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3",
+    "dotenv": "^8.2.0",
+    "express-validator": "^6.10.0",
+    "swagger-ui-express": "^4.1.6",
+    "swagger-jsdoc": "^6.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^2.0.7"
   }
 }
