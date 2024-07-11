@@ -1,4 +1,3 @@
-// src/routes/reviewRoutes.js
 const express = require('express');
 const {
   createReview,
@@ -109,4 +108,66 @@ router.get('/', getReviews);
  *       200:
  *         description: The review description by id
  *         contents:
- *
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Review'
+ *       404:
+ *         description: The review was not found
+ */
+router.get('/:id', getReviewById);
+
+/**
+ * @swagger
+ * /api/reviews/{id}:
+ *   put:
+ *     summary: Update the review by the id
+ *     tags: [Reviews]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The review id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Review'
+ *     responses:
+ *       200:
+ *         description: The review was updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Review'
+ *       404:
+ *         description: The review was not found
+ *       400:
+ *         description: Some properties are missing or invalid
+ */
+router.put('/:id', updateReview);
+
+/**
+ * @swagger
+ * /api/reviews/{id}:
+ *   delete:
+ *     summary: Remove the review by id
+ *     tags: [Reviews]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The review id
+ *     responses:
+ *       204:
+ *         description: The review was deleted
+ *       404:
+ *         description: The review was not found
+ */
+router.delete('/:id', deleteReview);
+
+module.exports = router;

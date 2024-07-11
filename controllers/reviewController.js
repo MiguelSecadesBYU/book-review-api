@@ -1,4 +1,3 @@
-// src/controllers/reviewController.js
 const Review = require('../models/reviewModel');
 
 /**
@@ -96,7 +95,7 @@ const getReviews = async (req, res) => {
     const reviews = await Review.find().populate('bookId');
     res.status(200).json(reviews);
   } catch (err) {
-    res.status500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
