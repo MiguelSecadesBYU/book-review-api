@@ -1,0 +1,77 @@
+### Create a new book
+POST http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+  "title": "The Great Gatsby",
+  "author": "F. Scott Fitzgerald",
+  "genre": "Fiction",
+  "description": "A novel set in the Jazz Age."
+}
+
+###
+
+### Get all books
+GET http://localhost:3000/api/books
+
+###
+
+### Get a book by ID
+GET http://localhost:3000/api/books/{{bookId}}
+
+###
+
+### Update a book by ID
+PUT http://localhost:3000/api/books/{{bookId}}
+Content-Type: application/json
+
+{
+  "title": "The Great Gatsby",
+  "author": "F. Scott Fitzgerald",
+  "genre": "Classics",
+  "description": "A novel set in the Roaring Twenties."
+}
+
+###
+
+### Delete a book by ID
+DELETE http://localhost:3000/api/books/{{bookId}}
+
+###
+
+### Create a new review
+POST http://localhost:3000/api/reviews
+Content-Type: application/json
+
+{
+  "bookId": "{{bookId}}",
+  "userId": "1a2b3c4d5e",
+  "rating": 5,
+  "comment": "An excellent read!"
+}
+
+###
+
+### Get all reviews
+GET http://localhost:3000/api/reviews
+
+###
+
+### Get a review by ID
+GET http://localhost:3000/api/reviews/{{reviewId}}
+
+###
+
+### Update a review by ID
+PUT http://localhost:3000/api/reviews/{{reviewId}}
+Content-Type: application/json
+
+{
+  "rating": 4,
+  "comment": "A good read, but could be better."
+}
+
+###
+
+### Delete a review by ID
+DELETE http://localhost:3000/api/reviews/{{reviewId}}
