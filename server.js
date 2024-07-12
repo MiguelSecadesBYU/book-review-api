@@ -1,4 +1,4 @@
-require('dotenv').config(); 
+require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
 const swagger = require('./swagger');
@@ -11,6 +11,11 @@ app.use(express.json());
 // Routes
 app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
+
+// Welcome Route
+app.get('/', (req, res) => {
+  res.send('<h1>Welcome to the Book Review API</h1><p>This is an API for managing book reviews. You can use the endpoints documented at <a href="/api-docs">/api-docs</a> to interact with the API.</p>');
+});
 
 // Swagger setup
 swagger(app);
