@@ -2,10 +2,17 @@ require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
 const swagger = require('./swagger');
+const cors = require('cors');
 
 const app = express();
 connectDB();
 
+const corsOptions = {
+  origin: '*', // Allow all origins
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
