@@ -1,4 +1,3 @@
-// src/controllers/bookController.js
 const Book = require('../models/bookModel');
 
 /**
@@ -26,12 +25,25 @@ const Book = require('../models/bookModel');
  *         description:
  *           type: string
  *           description: A brief description of the book
+ *         publication:
+ *           type: string
+ *           format: date
+ *           description: The publication date of the book
+ *         pages:
+ *           type: integer
+ *           description: The number of pages in the book
+ *         editorial:
+ *           type: string
+ *           description: The editorial of the book
  *       example:
  *         id: d5fE_asz
  *         title: The Great Gatsby
  *         author: F. Scott Fitzgerald
  *         genre: Fiction
  *         description: A novel set in the Jazz Age.
+ *         publication: "1925-04-10"
+ *         pages: 180
+ *         editorial: Scribner
  */
 
 /**
@@ -66,7 +78,7 @@ const Book = require('../models/bookModel');
 const createBook = async (req, res) => {
   const { title, author, genre, description } = req.body;
   try {
-    const newBook = new Book({ title, author, genre, description });
+    const newBook = new Book({ title, author, genre, description, publication, pages, editorial });
     const savedBook = await newBook.save();
     res.status(201).json(savedBook);
   } catch (err) {
@@ -170,7 +182,7 @@ const updateBook = async (req, res) => {
   const { id } = req.params;
   const { title, author, genre, description } = req.body;
   try {
-    const updatedBook = await Book.findByIdAndUpdate(id, { title, author, genre, description }, { new: true });
+    const updatedBook = await Book.findByIdAndUpdate(id, { title, author, genre, description, publication, pages, editorial }, { new: true });
     if (!updatedBook) {
       return res.status(404).json({ message: 'Book not found' });
     }

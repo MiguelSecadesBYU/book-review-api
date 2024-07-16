@@ -1,4 +1,3 @@
-// src/models/bookModel.js
 const mongoose = require('mongoose');
 
 /**
@@ -10,6 +9,11 @@ const mongoose = require('mongoose');
  *       required:
  *         - title
  *         - author
+ *         - genre
+ *         - description
+ *         - publication
+ *         - pages
+ *         - editorial
  *       properties:
  *         id:
  *           type: string
@@ -26,21 +30,35 @@ const mongoose = require('mongoose');
  *         description:
  *           type: string
  *           description: A brief description of the book
+ *         publication:
+ *           type: string
+ *           format: date
+ *           description: The publication date of the book
+ *         pages:
+ *           type: integer
+ *           description: The number of pages in the book
+ *         editorial:
+ *           type: string
+ *           description: The editorial of the book
  *       example:
  *         id: d5fE_asz
  *         title: The Great Gatsby
  *         author: F. Scott Fitzgerald
  *         genre: Fiction
  *         description: A novel set in the Jazz Age.
+ *         publication: "1925-04-10"
+ *         pages: 180
+ *         editorial: Scribner
  */
 
 const bookSchema = new mongoose.Schema({
   title: { type: String, required: true },
   author: { type: String, required: true },
-  genre: { type: String },
-  description: { type: String },
+  genre: { type: String, required: true },
+  description: { type: String, required: true },
+  publication: { type: Date, required: true },
+  pages: { type: Number, required: true },
+  editorial: { type: String, required: true }
 });
 
-const Book = mongoose.model('Book', bookSchema);
-
-module.exports = Book;
+module.exports = mongoose.model('Book', bookSchema);

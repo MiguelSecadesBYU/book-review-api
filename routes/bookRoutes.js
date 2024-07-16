@@ -40,6 +40,9 @@ const router = express.Router();
  *         author: F. Scott Fitzgerald
  *         genre: Fiction
  *         description: A novel set in the Jazz Age.
+ *         publication: "1925-04-10"
+ *         pages: 180
+ *         editorial: Scribner
  */
 
 /**
