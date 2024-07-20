@@ -1,77 +1,82 @@
-### Create a new book
+# Books
+GET http://localhost:3000/api/books
+GET http://localhost:3000/api/books/{{bookId}}
 POST http://localhost:3000/api/books
 Content-Type: application/json
 
 {
-  "title": "The Great Gatsby",
-  "author": "F. Scott Fitzgerald",
+  "title": "New Book",
+  "author": "Author Name",
   "genre": "Fiction",
-  "description": "A novel set in the Jazz Age."
+  "description": "A brief description"
 }
 
-###
-
-### Get all books
-GET http://localhost:3000/api/books
-
-###
-
-### Get a book by ID
-GET http://localhost:3000/api/books/{{bookId}}
-
-###
-
-### Update a book by ID
 PUT http://localhost:3000/api/books/{{bookId}}
 Content-Type: application/json
 
 {
-  "title": "The Great Gatsby",
-  "author": "F. Scott Fitzgerald",
-  "genre": "Classics",
-  "description": "A novel set in the Roaring Twenties."
+  "title": "Updated Book",
+  "author": "Updated Author",
+  "genre": "Updated Fiction",
+  "description": "An updated description"
 }
 
-###
-
-### Delete a book by ID
 DELETE http://localhost:3000/api/books/{{bookId}}
 
-###
-
-### Create a new review
+# Reviews
+GET http://localhost:3000/api/reviews
+GET http://localhost:3000/api/reviews/{{reviewId}}
 POST http://localhost:3000/api/reviews
 Content-Type: application/json
 
 {
   "bookId": "{{bookId}}",
-  "userId": "1a2b3c4d5e",
+  "userId": "{{userId}}",
   "rating": 5,
-  "comment": "An excellent read!"
+  "comment": "An excellent book"
 }
 
-###
-
-### Get all reviews
-GET http://localhost:3000/api/reviews
-
-###
-
-### Get a review by ID
-GET http://localhost:3000/api/reviews/{{reviewId}}
-
-###
-
-### Update a review by ID
 PUT http://localhost:3000/api/reviews/{{reviewId}}
 Content-Type: application/json
 
 {
   "rating": 4,
-  "comment": "A good read, but could be better."
+  "comment": "A very good book"
 }
 
-###
-
-### Delete a review by ID
 DELETE http://localhost:3000/api/reviews/{{reviewId}}
+
+# Users
+GET http://localhost:3000/api/users
+GET http://localhost:3000/api/users/{{userId}}
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+  "name": "New User",
+  "email": "user@example.com",
+  "password": "securepassword"
+}
+
+DELETE http://localhost:3000/api/users/{{userId}}
+
+# Categories
+GET http://localhost:3000/api/categories
+GET http://localhost:3000/api/categories/{{categoryId}}
+POST http://localhost:3000/api/categories
+Content-Type: application/json
+
+{
+  "name": "New Category",
+  "description": "A brief description"
+}
+
+PUT http://localhost:3000/api/categories/{{categoryId}}
+Content-Type: application/json
+
+{
+  "name": "Updated Category",
+  "description": "An updated description"
+}
+
+DELETE http://localhost:3000/api/categories/{{categoryId}}
