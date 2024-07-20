@@ -6,7 +6,6 @@ const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
 const passportConfig = require('./config/passportConfig');
-const ensureAuthenticated = require('./middlewares/ensureAuthenticated');
 
 const app = express();
 connectDB();
@@ -23,13 +22,19 @@ app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUniniti
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
+// Middleware to ensure authentication
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ message: 'Unauthorized' });
+}
+
 app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
 
-// Swagger setup
 swagger(app);
 
 module.exports = app;
