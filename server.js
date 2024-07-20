@@ -3,21 +3,27 @@ const express = require('express');
 const connectDB = require('./config/db');
 const swagger = require('./swagger');
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('./config/passportConfig'); 
 
 const app = express();
 connectDB();
 
 const corsOptions = {
-  origin: '*', // Allow all origins
+  origin: '*', 
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false })); 
+app.use(passport.initialize()); 
+app.use(passport.session()); 
 
 // Routes
 app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
+app.use('/auth', require('./routes/authRoutes')); 
 
 // Welcome Route
 app.get('/', (req, res) => {
