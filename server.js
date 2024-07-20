@@ -6,6 +6,7 @@ const cors = require('cors');
 const session = require('express-session');
 const passport = require('./config/passportConfig'); 
 const app = express();
+
 connectDB();
 
 const corsOptions = {
@@ -73,8 +74,7 @@ app.get('/logout', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

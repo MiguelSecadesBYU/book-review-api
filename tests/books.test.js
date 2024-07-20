@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../server'); 
+const app = require('../testServer');
 
 describe('Books API', () => {
   let bookId;
