@@ -5,7 +5,6 @@ const swagger = require('./swagger');
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('./config/passportConfig'); 
-
 const app = express();
 connectDB();
 
@@ -20,14 +19,28 @@ app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUniniti
 app.use(passport.initialize()); 
 app.use(passport.session()); 
 
+// Authentication middleware
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ message: 'Unauthorized' });
+}
+
 // Routes
 app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/auth', require('./routes/authRoutes')); 
+app.use('/api/users', ensureAuthenticated, require('./routes/userRoutes')); 
+app.use('/api/categories', ensureAuthenticated, require('./routes/categoryRoutes')); 
 
 // Welcome Route
 app.get('/', (req, res) => {
-  res.send('<h1>Welcome to the Book Review API</h1><p>This is an API for managing book reviews. You can use the endpoints documented at <a href="/api-docs">/api-docs</a> to interact with the API.</p>');
+  res.send(`
+    <h1>Welcome to the Book Review API</h1>
+    <p>This is an API for managing book reviews. You can use the endpoints documented at <a href="/api-docs">/api-docs</a> to interact with the API.</p>
+    <p><a href="/auth/github">Login with GitHub</a></p>
+  `);
 });
 
 // Swagger setup
