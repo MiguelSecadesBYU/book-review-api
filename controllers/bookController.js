@@ -9,6 +9,11 @@ const Book = require('../models/bookModel');
  *       required:
  *         - title
  *         - author
+ *         - genre
+ *         - description
+ *         - publication
+ *         - pages
+ *         - editorial
  *       properties:
  *         id:
  *           type: string
@@ -76,7 +81,7 @@ const Book = require('../models/bookModel');
  *         description: Some properties are missing or invalid
  */
 const createBook = async (req, res) => {
-  const { title, author, genre, description } = req.body;
+  const { title, author, genre, description, publication, pages, editorial } = req.body;
   try {
     const newBook = new Book({ title, author, genre, description, publication, pages, editorial });
     const savedBook = await newBook.save();
@@ -180,7 +185,7 @@ const getBookById = async (req, res) => {
  */
 const updateBook = async (req, res) => {
   const { id } = req.params;
-  const { title, author, genre, description } = req.body;
+  const { title, author, genre, description, publication, pages, editorial } = req.body;
   try {
     const updatedBook = await Book.findByIdAndUpdate(id, { title, author, genre, description, publication, pages, editorial }, { new: true });
     if (!updatedBook) {

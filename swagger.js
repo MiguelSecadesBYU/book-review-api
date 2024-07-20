@@ -18,7 +18,7 @@ const options = {
       schemas: {
         Book: {
           type: 'object',
-          required: ['title', 'author'],
+          required: ['title', 'author', 'genre', 'description', 'publication', 'pages', 'editorial'],
           properties: {
             id: {
               type: 'string',
@@ -65,106 +65,10 @@ const options = {
             editorial: 'Scribner',
           },
         },
-        Review: {
-          type: 'object',
-          required: ['bookId', 'userId', 'rating'],
-          properties: {
-            id: {
-              type: 'string',
-              description: 'The auto-generated id of the review',
-            },
-            bookId: {
-              type: 'string',
-              description: 'The id of the book being reviewed',
-            },
-            userId: {
-              type: 'string',
-              description: 'The id of the user who wrote the review',
-            },
-            rating: {
-              type: 'number',
-              description: 'The rating given to the book',
-            },
-            comment: {
-              type: 'string',
-              description: 'Additional comments about the book',
-            },
-          },
-          example: {
-            id: 'd5fE_asz',
-            bookId: '60d...e8',
-            userId: '1a2...d3',
-            rating: 4,
-            comment: 'An excellent read!',
-          },
-        },
-        User: {
-          type: 'object',
-          required: ['name', 'email', 'password'],
-          properties: {
-            id: {
-              type: 'string',
-              description: 'The auto-generated id of the user',
-            },
-            name: {
-              type: 'string',
-              description: 'The name of the user',
-            },
-            email: {
-              type: 'string',
-              description: 'The email of the user',
-            },
-            password: {
-              type: 'string',
-              description: 'The hashed password of the user',
-            },
-          },
-          example: {
-            id: 'd5fE_asz',
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            password: 'hashedpassword123',
-          },
-        },
-        Category: {
-          type: 'object',
-          required: ['name'],
-          properties: {
-            id: {
-              type: 'string',
-              description: 'The auto-generated id of the category',
-            },
-            name: {
-              type: 'string',
-              description: 'The name of the category',
-            },
-            description: {
-              type: 'string',
-              description: 'A brief description of the category',
-            },
-            creationDate: {
-              type: 'string',
-              format: 'date-time',
-              description: 'The creation date of the category',
-            },
-            lastUpdate: {
-              type: 'string',
-              format: 'date-time',
-              description: 'The last update date of the category',
-            },
-          },
-          example: {
-            id: 'd5fE_asz',
-            name: 'Fiction',
-            description: 'Category for all fiction books',
-            creationDate: '2023-07-12T19:23:00Z',
-            lastUpdate: '2023-07-12T19:23:00Z',
-          },
-        },
       },
     },
   },
-  apis: ['./controllers/*.js'], 
+  apis: ['./controllers/*.js'],
 };
 
 const specs = swaggerJsDoc(options);

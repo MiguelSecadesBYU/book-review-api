@@ -3,7 +3,7 @@ const app = require('../server');
 
 describe('Reviews API', () => {
   let reviewId;
-  const bookId = 'validBookId'; // Replace with a valid book ID
+  const bookId = '669be06214220b7b123f3353'; 
   const userId = '669bdaf68baf44084568a1a3'; 
 
   // Test for creating a new review
