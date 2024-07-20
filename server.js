@@ -39,12 +39,38 @@ app.get('/', (req, res) => {
   res.send(`
     <h1>Welcome to the Book Review API</h1>
     <p>This is an API for managing book reviews. You can use the endpoints documented at <a href="/api-docs">/api-docs</a> to interact with the API.</p>
-    <p><a href="/auth/github">Login with GitHub</a></p>
+    <ul>
+      <li><a href="/auth/github">Login with GitHub</a></li>
+      <li><a href="/profile">View Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
   `);
 });
 
 // Swagger setup
 swagger(app);
+
+
+// Profile route
+app.get('/profile', ensureAuthenticated, (req, res) => {
+  const user = req.user;
+  res.send(`
+    <h1>User Profile</h1>
+    <p><strong>Name:</strong> ${user.displayName}</p>
+    <p><strong>Username:</strong> ${user.username}</p>
+    <p><strong>Profile URL:</strong> <a href="${user.profileUrl}">${user.profileUrl}</a></p>
+    <p><strong>Avatar:</strong> <img src="${user.photos[0].value}" alt="User Avatar" /></p>
+    <p><a href="/">Go back to Home</a></p>
+  `);
+});
+
+// Logout route
+app.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
