@@ -40,6 +40,19 @@ const options = {
               type: 'string',
               description: 'A brief description of the book',
             },
+            publication: {
+              type: 'string',
+              format: 'date',
+              description: 'The publication date of the book',
+            },
+            pages: {
+              type: 'integer',
+              description: 'The number of pages in the book',
+            },
+            editorial: {
+              type: 'string',
+              description: 'The editorial of the book',
+            },
           },
           example: {
             id: 'd5fE_asz',
@@ -47,6 +60,9 @@ const options = {
             author: 'F. Scott Fitzgerald',
             genre: 'Fiction',
             description: 'A novel set in the Jazz Age.',
+            publication: '1925-04-10',
+            pages: 180,
+            editorial: 'Scribner',
           },
         },
         Review: {
