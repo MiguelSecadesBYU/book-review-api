@@ -31,9 +31,9 @@ function ensureAuthenticated(req, res, next) {
 // Routes
 app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
-app.use('/auth', require('./routes/authRoutes')); 
 app.use('/api/users', ensureAuthenticated, require('./routes/userRoutes')); 
 app.use('/api/categories', ensureAuthenticated, require('./routes/categoryRoutes')); 
+app.use('/auth', require('./routes/authRoutes')); 
 
 // Welcome Route
 app.get('/', (req, res) => {

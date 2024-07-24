@@ -1,11 +1,20 @@
 const express = require('express');
+const { getCategories, getCategoryById, createCategory, updateCategory, deleteCategory } = require('../controllers/categoryController');
 const router = express.Router();
-const { createCategory, getCategories, getCategoryById, updateCategory, deleteCategory } = require('../controllers/categoryController');
 
-router.post('/', createCategory); 
+// Swagger tags
+/**
+ * @swagger
+ * tags:
+ *   name: Categories
+ *   description: Category management
+ */
+
+// Routes
 router.get('/', getCategories);
 router.get('/:id', getCategoryById);
-router.put('/:id', updateCategory); 
-router.delete('/:id', deleteCategory); 
+router.post('/', createCategory);
+router.put('/:id', updateCategory);
+router.delete('/:id', deleteCategory);
 
 module.exports = router;
