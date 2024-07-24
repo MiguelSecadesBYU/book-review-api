@@ -29,6 +29,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 // Routes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/users', ensureAuthenticated, require('./routes/userRoutes')); 
