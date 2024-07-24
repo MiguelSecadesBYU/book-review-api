@@ -1,5 +1,34 @@
 const User = require('../models/userModel');
-const bcrypt = require('bcrypt');
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - username
+ *         - password
+ *         - email
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the user
+ *         username:
+ *           type: string
+ *           description: The user's username
+ *         password:
+ *           type: string
+ *           description: The user's password
+ *         email:
+ *           type: string
+ *           description: The user's email
+ *       example:
+ *         id: d5fE_asz
+ *         username: johndoe
+ *         password: password123
+ *         email: johndoe@example.com
+ */
 
 /**
  * @swagger
@@ -28,116 +57,78 @@ const bcrypt = require('bcrypt');
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       400:
- *         description: Some properties are missing or invalid
+ *         description: Bad request
  */
-const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword });
-    const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+exports.register = async (req, res) => {
+    try {
+        const user = new User(req.body);
+        await user.save();
+        res.status(201).send(user);
+    } catch (error) {
+        res.status(400).send(error);
+    }
 };
 
 /**
  * @swagger
- * /api/users:
- *   get:
- *     summary: Returns the list of all users
+ * /api/users/login:
+ *   post:
+ *     summary: Log in a user
  *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
  *     responses:
  *       200:
- *         description: The list of the users
+ *         description: The user was successfully logged in
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
  */
-const getUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+exports.login = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const user = await User.findByCredentials(username, password);
+        if (!user) {
+            return res.status(401).send({ error: 'Login failed! Check authentication credentials' });
+        }
+        res.send({ user });
+    } catch (error) {
+        res.status(400).send(error);
+    }
 };
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users/profile:
  *   get:
- *     summary: Get the user by id
+ *     summary: Get the logged in user's profile
  *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user id
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: The user description by id
- *         contents:
+ *         description: The user profile
+ *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
- *       404:
- *         description: The user was not found
+ *       401:
+ *         description: Unauthorized
  */
-const getUserById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
-/**
- * @swagger
- * /api/users/{id}:
- *   delete:
- *     summary: Remove the user by id
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user id
- *     responses:
- *       204:
- *         description: The user was deleted
- *       404:
- *         description: The user was not found
- */
-const deleteUser = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deletedUser = await User.findByIdAndDelete(id);
-    if (!deletedUser) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    res.status(204).json();
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
-module.exports = {
-  registerUser,
-  getUsers,
-  getUserById,
-  deleteUser,
+exports.getProfile = async (req, res) => {
+    res.send(req.user);
 };
