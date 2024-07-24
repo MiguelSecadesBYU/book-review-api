@@ -1,4 +1,4 @@
-const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const options = {
@@ -7,7 +7,7 @@ const options = {
     info: {
       title: 'Book Review API',
       version: '1.0.0',
-      description: 'API for managing book reviews, users, and categories',
+      description: 'A simple API for book reviews',
     },
     servers: [
       {
@@ -15,6 +15,12 @@ const options = {
       },
     ],
     components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+        },
+      },
       schemas: {
         Book: {
           type: 'object',
@@ -65,13 +71,97 @@ const options = {
             editorial: 'Scribner',
           },
         },
+        Category: {
+          type: 'object',
+          required: ['name', 'description'],
+          properties: {
+            id: {
+              type: 'string',
+              description: 'The auto-generated id of the category',
+            },
+            name: {
+              type: 'string',
+              description: 'The name of the category',
+            },
+            description: {
+              type: 'string',
+              description: 'A brief description of the category',
+            },
+          },
+          example: {
+            id: '1',
+            name: 'Fiction',
+            description: 'Fictional books',
+          },
+        },
+        Review: {
+          type: 'object',
+          required: ['bookId', 'userId', 'rating', 'comment'],
+          properties: {
+            id: {
+              type: 'string',
+              description: 'The auto-generated id of the review',
+            },
+            bookId: {
+              type: 'string',
+              description: 'The id of the book being reviewed',
+            },
+            userId: {
+              type: 'string',
+              description: 'The id of the user who wrote the review',
+            },
+            rating: {
+              type: 'integer',
+              description: 'The rating given by the user',
+            },
+            comment: {
+              type: 'string',
+              description: 'The comment of the review',
+            },
+          },
+          example: {
+            id: '1',
+            bookId: 'd5fE_asz',
+            userId: '1',
+            rating: 5,
+            comment: 'Excellent book!',
+          },
+        },
+        User: {
+          type: 'object',
+          required: ['username', 'email', 'password'],
+          properties: {
+            id: {
+              type: 'string',
+              description: 'The auto-generated id of the user',
+            },
+            username: {
+              type: 'string',
+              description: 'The username of the user',
+            },
+            email: {
+              type: 'string',
+              description: 'The email of the user',
+            },
+            password: {
+              type: 'string',
+              description: 'The password of the user',
+            },
+          },
+          example: {
+            id: '1',
+            username: 'johndoe',
+            email: 'johndoe@example.com',
+            password: 'password123',
+          },
+        },
       },
     },
   },
-  apis: ['./controllers/*.js'],
+  apis: ['./routes/*.js', './models/*.js'],
 };
 
-const specs = swaggerJsDoc(options);
+const specs = swaggerJSDoc(options);
 
 module.exports = (app) => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
